@@ -1,0 +1,37 @@
+version: '2'
+
+services:
+  redis:
+    image: redis:5
+    volumes:
+      - ./redis_persistence:/data
+
+  redis_cli:
+    image: redis:5
+    depends_on:
+      - redis
+    command: 'redis-cli'
+
+  node_base:
+    image: node:12
+    user: 'node'
+    working_dir: /home/node/app
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    volumes:
+      - ./:/home/node/app
+
+  node_start:
+    extends: node_base
+    command: "npm start"
+  node_server:
+    extends: node_base
+    command: "npm run server"
+    depends_on:
+      - redis
+  node_dev:
+    extends: node_base
+    command: "npm run dev"
+    depends_on:
+      - redis
