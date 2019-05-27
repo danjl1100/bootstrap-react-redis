@@ -51,6 +51,7 @@ exec_cmd sudo docker-compose \
 	bootstrap_init_react
 
 # DOCKER-RUN: npm install --save-dev ..."
+#   inspired by: https://www.twilio.com/blog/react-app-with-node-js-server-proxy
 exec_cmd sudo docker-compose \
 	-f bootstrap_docker-compose.yaml \
 	run --rm \
@@ -62,6 +63,9 @@ cat package.json.orig \
 	| sed 's#"start": "react-scripts start"#"start": "react-scripts start",\n    "server": "node-env-run server --exec nodemon \| pino-colada",\n    "dev": "run-p server start"#g' \
 	| sed 's#"scripts": {#"proxy": "http://localhost:3001",\n  "scripts": {#g' \
 	| tee ${APP_NAME}/package.json
+
+section_title Patch GIT-ignore
+echo -e "\nredis_persistence/" >> ${APP_NAME}/.gitignore
 
 # COPY Docker files
 exec_cmd cp -r skel/* ${APP_NAME}/
