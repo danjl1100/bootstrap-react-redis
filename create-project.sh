@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+cat << EndLicense
+ bootstrap-react-redis  Copyright (C) 2019 Daniel Lambert
+ This program comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+ This is free software, and you are welcome to redistribute it
+ under certain conditions; for details see COPYING.
+
+EndLicense
+
 set -e
 
 # provide Visual Cues to contrast with the output of "npm init/install"
