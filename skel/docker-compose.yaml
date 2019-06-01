@@ -6,13 +6,13 @@ services:
     volumes:
       - ./redis_persistence:/data
 
-  redis_cli:
+  redis-cli:
     image: redis:5
     depends_on:
       - redis
-    command: 'redis-cli'
+    command: 'redis-cli -h redis'
 
-  node_base:
+  node-base:
     image: node:12
     user: 'node'
     working_dir: /home/node/app
@@ -22,16 +22,7 @@ services:
     volumes:
       - ./:/home/node/app
 
-  node_start:
-    extends: node_base
-    command: "npm start"
-  node_server:
-    extends: node_base
-    command: "npm run server"
-    depends_on:
-      - redis
-  node_dev:
-    extends: node_base
-    command: "npm run dev"
+  node-needs-redis:
+    extends: node-base
     depends_on:
       - redis
